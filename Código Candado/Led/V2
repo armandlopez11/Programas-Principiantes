@@ -1,0 +1,74 @@
+#include <Keypad.h>
+#include <FastLED.h>
+#define NUM_LEDS 30
+#define DATA_PIN 2
+ 
+const byte rowsCount = 4;
+const byte columsCount = 4;
+ 
+char keys[rowsCount][columsCount] = {
+   { '1','2','3', 'A' },
+   { '4','5','6', 'B' },
+   { '7','8','9', 'C' },
+   { '*','0','#', 'D' }
+};
+ 
+const byte rowPins[rowsCount] = { 11, 10, 9, 8 };
+const byte columnPins[columsCount] = { 7, 6, 5, 4 };
+char key = '0';
+
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, columnPins, rowsCount, columsCount);
+ 
+CRGB leds[NUM_LEDS];
+int ledAPintar = 0;
+
+void setup() {
+ Serial.begin(9600);
+ FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+}
+
+void loop() {
+  key = keypad.getKey();
+  if(key) {
+    if (key == '1'){
+      Serial.println("Pintando Rojo...");
+      leds[ledAPintar] = CRGB::Red;
+      }
+      if (key == '2'){
+      Serial.println("Pintando Azul...");
+      leds[ledAPintar] = CRGB::Blue;
+      }
+      if (key == '3'){
+      Serial.println("Pintando Naranja...");
+      leds[ledAPintar] = CRGB::Orange;
+      }
+      if (key == '4'){
+      Serial.println("Pintando Verde...");
+      leds[ledAPintar] = CRGB::Green;
+      }
+      if (key == '5'){
+      Serial.println("Pintando Amarillo...");
+      leds[ledAPintar] = CRGB::Yellow;
+      }
+      if (key == '6'){
+      Serial.println("Pintando Lila...");
+      leds[ledAPintar] =  CRGB( 117, 0, 124);
+      }
+       if (key == '7'){
+      Serial.println("Pintando Rosa...");
+      leds[ledAPintar] =  CRGB( 246, 126, 211);
+      }
+       if (key == '8'){
+      Serial.println("Pintando Cian...");
+      leds[ledAPintar] = CRGB::Cyan;
+      }
+       if (key == '9'){
+      Serial.println("Pintando Blanco...");
+      leds[ledAPintar  ] = CRGB::White;
+      }
+      ledAPintar ++;
+      ledAPintar = ledAPintar % NUM_LEDS;
+      leds[ledAPintar] = CRGB::Black;
+      FastLED.show();    
+  }
+}
